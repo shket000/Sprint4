@@ -18,7 +18,20 @@ const (
 )
 
 func parseTraining(data string) (int, string, time.Duration, error) {
-	// TODO: реализовать функцию
+	temp := strings.Split(data, ",")
+	if len(temp) != 3 {
+		return 0, "", time.Duration(0), fmt.Errorf("Training data is not valid")
+	}
+	step, err := strconv.Atoi(temp[0])
+	if err != nil {
+		return 0, "", time.Duration(0), fmt.Errorf("Step is not valid")
+	}
+	duration, err := time.ParseDuration(temp[2])
+	if err != nil {
+		return 0, "", time.Duration(0), fmt.Errorf("Duration is not valid")
+	}
+	return step, temp[1], duration, nil
+
 }
 
 func distance(steps int, height float64) float64 {
