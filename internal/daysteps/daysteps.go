@@ -1,6 +1,10 @@
 package daysteps
 
 import (
+	"fmt"
+	"github.com/Yandex-Practicum/tracker/internal/spentcalories"
+	"strconv"
+	"strings"
 	"time"
 )
 
