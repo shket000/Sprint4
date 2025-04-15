@@ -40,7 +40,7 @@ func distance(steps int, height float64) float64 {
 }
 
 func meanSpeed(steps int, height float64, duration time.Duration) float64 {
-	if duration < 0 {
+	if duration <= 0 {
 		return 0.0
 	}
 	dist := distance(steps, height)
