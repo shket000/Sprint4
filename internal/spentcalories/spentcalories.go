@@ -26,8 +26,14 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	if err != nil {
 		return 0, "", time.Duration(0), fmt.Errorf("Step is not valid")
 	}
+	if step <= 0 {
+		return 0, "", time.Duration(0), fmt.Errorf("Step is not valid")
+	}
 	duration, err := time.ParseDuration(temp[2])
 	if err != nil {
+		return 0, "", time.Duration(0), fmt.Errorf("Duration is not valid")
+	}
+	if duration <= 0 {
 		return 0, "", time.Duration(0), fmt.Errorf("Duration is not valid")
 	}
 	return step, temp[1], duration, nil
@@ -43,6 +49,9 @@ func meanSpeed(steps int, height float64, duration time.Duration) float64 {
 	if duration <= 0 {
 		return 0.0
 	}
+	if height <= 0 {
+		return 0.0
+	}
 	dist := distance(steps, height)
 	return dist / duration.Hours()
 }
@@ -51,6 +60,15 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	steps, train, duration, err := parseTraining(data)
 	if err != nil {
 		return "", err
+	}
+	if weight <= 0 {
+		return "", errors.New("Weight is not valid")
+	}
+	if height <= 0 {
+		return "", errors.New("Height is not valid")
+	}
+	if duration <= 0 {
+		return "", errors.New("Duration is not valid")
 	}
 	durationInHours := duration.Hours()
 	dist := distance(steps, height)
@@ -70,16 +88,16 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 }
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
-	if steps < 1 {
+	if steps <= 1 {
 		return 0.0, errors.New("Steps must be greater than zero")
 	}
-	if weight < 0 {
+	if weight <= 0 {
 		return 0.0, errors.New("Weight must be greater than zero")
 	}
-	if height < 0 {
+	if height <= 0 {
 		return 0.0, errors.New("Height must be greater than zero")
 	}
-	if duration < 0 {
+	if duration <= 0 {
 		return 0.0, errors.New("Duration must be greater than zero")
 	}
 	averageSpeed := meanSpeed(steps, height, duration)
@@ -92,13 +110,13 @@ func WalkingSpentCalories(steps int, weight, height float64, duration time.Durat
 	if steps < 1 {
 		return 0.0, errors.New("Steps must be greater than zero")
 	}
-	if weight < 0 {
+	if weight <= 0 {
 		return 0.0, errors.New("Weight must be greater than zero")
 	}
-	if height < 0 {
+	if height <= 0 {
 		return 0.0, errors.New("Height must be greater than zero")
 	}
-	if duration < 0 {
+	if duration <= 0 {
 		return 0.0, errors.New("Duration must be greater than zero")
 	}
 	averageSpeed := meanSpeed(steps, height, duration)
